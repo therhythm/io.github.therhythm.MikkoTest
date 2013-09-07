@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Description of Month
- * Weekdays are represented using a number as such: Sunday = 0, Monday = 1, etc.
- *
+ * Month is a class representing calendar months which can also calculate the 
+ * paydays for that given month. Weekdays are represented using a number, e.g. 
+ * Sunday = 0, Monday = 1, etc.
  * @author Kasper Vervaecke
  */
 class Month {
@@ -20,11 +20,19 @@ class Month {
     private $numberOfDays;
     private $startsOn;
     
-    public function __construct($number = 1, $year = 2013) {
+    /**
+     * Initialize this Month with a given numerical representation and a given 
+     * year, calculate the number of days in this month and calculate which
+     * weekday the first day of this month is.
+     * @param int $number   The numerical representation of this month, e.g. 9
+     * @param int $year     The full-length numerical representation of this 
+     *                      year, e.g. 2013
+     */
+    public function __construct($number, $year) {
         include_once 'DateUtility.php';
         
         $this->setNumber($number);
-        
+               
         $numberOfDays = cal_days_in_month(CAL_GREGORIAN, $number, $year);
         $this->setNumberOfDays($numberOfDays);
         
@@ -34,7 +42,12 @@ class Month {
         $this->setStartOn($startsOn);
     }
 
-    public function setNumber($number = 1) {
+    /**
+     * Set the numerical representation of this month.
+     * @param int $number   The numerical representation of this month, e.g. 9
+     * @throws Exception    Month expects $number to be between 1 and 12
+     */
+    public function setNumber($number) {
         if (1 <= $number && $number <= 12) {
             $this->number = $number;
         } else {
@@ -43,11 +56,21 @@ class Month {
         }
     }
 
+    /**
+     * Get the numerical representation of this month.
+     * @return int  The numerical representation of this month, e.g. 9
+     */
     public function getNumber() {
         return $this->number;
     }
 
-    public function setNumberOfDays($numberOfDays = 31) {
+    /**
+     * Set the number of days in this month.
+     * @param int $numberOfDays The number of days in this month
+     * @throws Exception        Month expects $numberOfDays to be between
+     *                          28 and 31
+     */
+    public function setNumberOfDays($numberOfDays) {
         if (28 <= $numberOfDays && $numberOfDays <= 31) {
             $this->numberOfDays = $numberOfDays;
         } else {
@@ -56,11 +79,20 @@ class Month {
         }
     }
 
+    /**
+     * Get the number of days in this month.
+     * @return int  The number of days in this month
+     */
     public function getNumberOfDays() {
         return $this->numberOfDays;
     }
 
-    public function setStartOn($startsOn = 1) {
+    /**
+     * Set which weekday this month starts on.
+     * @param int $startsOn The weekday this month starts on
+     * @throws Exception    Month expects $startsOn to be between 0 and 6
+     */
+    public function setStartOn($startsOn) {
         if (0 <= $startsOn && $startsOn <= 6) {
             $this->startsOn = $startsOn;
         } else {
@@ -69,10 +101,19 @@ class Month {
         }
     }
 
+    /**
+     * Get the weekday this month starts on.
+     * @return int  The weekday this month starts on
+     */
     public function getStartsOn() {
         return $this->startsOn;
     }
 
+    /**
+     * Calculate the salary day for this month. If the last day of the month
+     * is a Saturday or a Sunday, the previous Friday is used.
+     * @return int  The salary day for this month
+     */
     public function calculateSalaryDay() {
         // (numberOfDays + indexOfFirstDay + 6) mod 7 
         // gives you the numeric representation of the last day of the month
@@ -86,6 +127,11 @@ class Month {
         }
     }
 
+    /**
+     * Calculate the bonus day for this month. If the bonus day is a Saturday or
+     * Sunday, the next Wednesday is used.
+     * @return int  The bonus day for this month.
+     */
     public function calculateBonusDay() {
         //If we would assume that bonus day will always be on the 15th, 
         //we could simply check if the first day of the month is a week day, 

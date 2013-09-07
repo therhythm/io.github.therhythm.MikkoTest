@@ -1,21 +1,33 @@
 <?php
 
 /**
- * Description of SalaryUtility
- *
+ * SalaryUtility is the main class of this application. When initialized, it will
+ * calculate the remaining months of the current year, calculate the paydays for
+ * these months and write the results to a CSV file.
  * @author Kasper Vervaecke
  */
 class SalaryUtility {
+    //This is unlikely to make a big difference, but it could be changed 
+    //depending on where the application is used.
     const TIMEZONE = 'Europe/Brussels';
     
+    /*
+     * Initialize SalaryUtility, calculate the remaining months, calculate the
+     * paydays and write the results to a CSV file.
+     */
     public function __construct() {
         include_once 'Month.php';
         include_once 'FileWriter.php';
         date_default_timezone_set(SalaryUtility::TIMEZONE);
                
-        $months = $this->calculateRemainingMonths();
-        $paydays = $this->calculatePayDays($months);
-        $this->writeToFile($paydays);
+        try {
+            $months = $this->calculateRemainingMonths();
+            $paydays = $this->calculatePayDays($months);
+            $this->writeToFile($paydays);
+        } catch (Exception $exc) {
+            fwrite(STDERR, $exc->getMessage() . "\n");
+            exit(1);
+        }
     }
     
     //We want to calculate the paydays for the remainder of the year,
@@ -23,7 +35,7 @@ class SalaryUtility {
     //timeframe needs to be used, this method should be changed.
     private function calculateRemainingMonths() {
         for ($i = date('n'); $i <= 12; $i++) {
-            $months[] = new Month($i, date('Y'));
+            $months[] = new Month((int) $i, (int) date('Y'));
         }
         return $months;
     }

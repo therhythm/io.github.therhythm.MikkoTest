@@ -16,4 +16,13 @@ class DateUtilityTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(3, $dateUtitility->getWeekday(2013, 13, 10, 30));
         $this->assertEquals(5, $dateUtitility->getWeekday(2013, 13, 11, 15));
     }
+    
+    /**
+     * @covers DateUtility::getWeekday
+     * @expectedException Exception
+     */
+    public function testInvalidGetWeekday() {
+        $dateUtility = new DateUtility;
+        $dateUtility->getWeekday(1789, 89, 7, 14);
+    }
 }
