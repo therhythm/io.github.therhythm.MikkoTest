@@ -1,15 +1,18 @@
 <?php
 
-class DateUtilityTest extends PHPUnit_Framework_TestCase {
+class DateUtilityTest extends PHPUnit_Framework_TestCase
+{
 
-    protected function setUp() {
+    protected function setUp()
+    {
         include_once '../DateUtility.php';
     }
 
     /**
      * @covers DateUtility::getWeekday
      */
-    public function testGetWeekday() {
+    public function testGetWeekday()
+    {
         $dateUtitility = new DateUtility;
         $this->assertEquals(1, $dateUtitility->getWeekday(2013, 13, 9, 30));
         $this->assertEquals(0, $dateUtitility->getWeekday(2013, 13, 9, 15));
@@ -21,7 +24,8 @@ class DateUtilityTest extends PHPUnit_Framework_TestCase {
      * @covers DateUtility::getWeekday
      * @expectedException Exception
      */
-    public function testInvalidGetWeekday() {
+    public function testInvalidGetWeekday()
+    {
         $dateUtility = new DateUtility;
         $dateUtility->getWeekday(1789, 89, 7, 14);
     }

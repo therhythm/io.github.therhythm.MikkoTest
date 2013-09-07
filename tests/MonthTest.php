@@ -1,15 +1,18 @@
 <?php
 
-class MonthTest extends PHPUnit_Framework_TestCase {
+class MonthTest extends PHPUnit_Framework_TestCase
+{
 
-    protected function setUp() {
+    protected function setUp()
+    {
         include_once '../Month.php';
     }
 
     /**
      * @covers Month::calculateSalaryDay
      */
-    public function testCalculateSalaryDay() {
+    public function testCalculateSalaryDay()
+    {
         $month = new Month(9, 2013);
         $this->assertEquals(30, $month->calculateSalaryDay());
     }
@@ -17,7 +20,8 @@ class MonthTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Month::calculateSalaryDay
      */
-    public function testCalculateAlternativeSalaryDay() {
+    public function testCalculateAlternativeSalaryDay()
+    {
         $month = new Month(11, 2013);
         $this->assertEquals(29, $month->calculateSalaryDay());
     }
@@ -25,7 +29,8 @@ class MonthTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Month::calculateBonusDay
      */
-    public function testCalculateBonusDay() {
+    public function testCalculateBonusDay()
+    {
         $month = new Month(11, 2013);
         $this->assertEquals(15, $month->calculateBonusDay());
     }
@@ -33,7 +38,8 @@ class MonthTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Month::calculateBonusDay
      */
-    public function testCalculateAlternativeBonusDaySunday() {
+    public function testCalculateAlternativeBonusDaySunday()
+    {
         $month = new Month(9, 2013);
         $this->assertEquals(18, $month->calculateBonusDay());
     }
@@ -41,7 +47,8 @@ class MonthTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Month::calculateBonusDay
      */
-    public function testCalculateAlternativeBonusDaySaturday() {
+    public function testCalculateAlternativeBonusDaySaturday()
+    {
         $month = new Month(2, 2014);
         $this->assertEquals(19, $month->calculateBonusDay());
     }
@@ -50,7 +57,8 @@ class MonthTest extends PHPUnit_Framework_TestCase {
      * @covers Month::setNumber
      * @expectedException Exception
      */
-    public function testSetImpossibleMonth() {
+    public function testSetImpossibleMonth()
+    {
         $month = new Month();
         $month->setNumber(13);
     }
@@ -59,7 +67,8 @@ class MonthTest extends PHPUnit_Framework_TestCase {
      * @covers Month::setNumberOfDays
      * @expectedException Exception
      */
-    public function testSetImpossibleNumberOfDays() {
+    public function testSetImpossibleNumberOfDays()
+    {
         $month = new Month();
         $month->setNumberOfDays(35);
     }
@@ -68,7 +77,8 @@ class MonthTest extends PHPUnit_Framework_TestCase {
      * @covers Month::setStartsOn
      * @expectedException Exception
      */
-    public function testSetImpossibleStartdate() {
+    public function testSetImpossibleStartdate()
+    {
         $month = new Month();
         $month->setStartOn(8);
     }
