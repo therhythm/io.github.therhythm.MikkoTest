@@ -37,5 +37,31 @@ class MonthTest extends PHPUnit_Framework_TestCase {
         $month = new Month(9, 2013);
         $this->assertEquals(18, $month->calculateBonusDay());
     }
+    
+    /**
+     * @covers Month::setNumber
+     * @expectedException Exception
+     */
+    public function testSetImpossibleMonth() {
+        $month = new Month();
+        $month->setNumber(13);
+    }
+    
+    /**
+     * @covers Month::setNumberOfDays
+     * @expectedException Exception
+     */
+    public function testSetImpossibleNumberOfDays() {
+        $month = new Month();
+        $month->setNumberOfDays(35);
+    }
 
+    /**
+     * @covers Month::setStartsOn
+     * @expectedException Exception
+     */
+    public function testSetImpossibleStartdate() {
+        $month = new Month();
+        $month->setStartOn(8);
+    }
 }

@@ -37,6 +37,9 @@ class Month {
     public function setNumber($number = 1) {
         if (1 <= $number && $number <= 12) {
             $this->number = $number;
+        } else {
+            throw new Exception(
+                    "Month numbers should be between 1 and 12");
         }
     }
 
@@ -47,6 +50,9 @@ class Month {
     public function setNumberOfDays($numberOfDays = 31) {
         if (28 <= $numberOfDays && $numberOfDays <= 31) {
             $this->numberOfDays = $numberOfDays;
+        } else {
+            throw new Exception(
+                    "Months should have between 28 and 31 days");
         }
     }
 
@@ -57,6 +63,9 @@ class Month {
     public function setStartOn($startsOn = 1) {
         if (0 <= $startsOn && $startsOn <= 6) {
             $this->startsOn = $startsOn;
+        } else {
+            throw new Exception(
+                    "Start date should be between 0 and 6");
         }
     }
 
