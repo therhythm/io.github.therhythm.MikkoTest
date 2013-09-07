@@ -39,7 +39,7 @@ class Month {
             $this->number = $number;
         } else {
             throw new Exception(
-                    "Month numbers should be between 1 and 12");
+                    'Month numbers should be between 1 and 12');
         }
     }
 
@@ -52,7 +52,7 @@ class Month {
             $this->numberOfDays = $numberOfDays;
         } else {
             throw new Exception(
-                    "Months should have between 28 and 31 days");
+                    'Months should have between 28 and 31 days');
         }
     }
 
@@ -65,7 +65,7 @@ class Month {
             $this->startsOn = $startsOn;
         } else {
             throw new Exception(
-                    "Start date should be between 0 and 6");
+                    'Start date should be between 0 and 6');
         }
     }
 
