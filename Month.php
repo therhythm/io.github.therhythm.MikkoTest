@@ -9,9 +9,9 @@
 class Month {
     //TODO: what if suddenly paydays can be weekends and other days cannot?
     //Bonuses are paid out on the 15th, unless the 15th is a Saturday or Sunday,
-    //in which case, pay out the next Wednesday, the 18th.
+    //in which case, pay out the next Wednesday.
     const BONUS_DAY = 15;
-    const ALT_BONUS_DAY = 18;
+    const ALT_BONUS_DAY = 3;
     //If the last day of the month is a Saturday or Sunday, 
     //use the date of the previous Friday instead
     const ALT_SALARY_DAY = 5;
@@ -94,8 +94,10 @@ class Month {
         // (usualBonusDay + indexOfFirstDay + 6) mod 7 
         // gives you the numeric representation of the 15th day of the month
         $bonusDay = (Month::BONUS_DAY + $this->startsOn + 6) % 7;
-        if ($bonusDay == 0 || $bonusDay == 6) {
-            return Month::ALT_BONUS_DAY;
+        if ($bonusDay == 0) {
+            return Month::BONUS_DAY + Month::ALT_BONUS_DAY;
+        } else if ($bonusDay == 6) {
+            return Month::BONUS_DAY + Month::ALT_BONUS_DAY + 1;
         } else {
             return Month::BONUS_DAY;
         }

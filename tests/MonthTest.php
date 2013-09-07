@@ -33,9 +33,17 @@ class MonthTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Month::calculateBonusDay
      */
-    public function testCalculateAlternativeBonusDay() {
+    public function testCalculateAlternativeBonusDaySunday() {
         $month = new Month(9, 2013);
         $this->assertEquals(18, $month->calculateBonusDay());
+    }
+    
+    /**
+     * @covers Month::calculateBonusDay
+     */
+    public function testCalculateAlternativeBonusDaySaturday() {
+        $month = new Month(2, 2014);
+        $this->assertEquals(19, $month->calculateBonusDay());
     }
     
     /**
