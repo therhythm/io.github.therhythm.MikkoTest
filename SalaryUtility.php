@@ -6,34 +6,41 @@
  * @author Kasper Vervaecke
  */
 class SalaryUtility {
+    const TIMEZONE = 'Europe/Brussels';
     
     public function __construct() {
-        //TODO: currently hard-coded, use parameters or another elegant solution?
-        $months[] = new Month("September", 30, 6);
-        $months[] = new Month("Oktober", 31, 1);
-        $months[] = new Month("November", 30, 4);
-        $months[] = new Month("December", 31, 6);
+        date_default_timezone_set(SalaryUtility::TIMEZONE);
+               
+        $months = $this->calculateRemainingMonths();
         $paydays = $this->calculatePayDays($months);
         $this->writeToFile($paydays);
     }
     
-    //TODO: is this really necessary???
+    //We want to calculate the paydays for the remainder of the year,
+    //starting with the current month.
+    private function calculateRemainingMonths() {
+        for ($i = date('n'); $i <= 12; $i++) {
+            $months[] = new Month($i, date('Y'));
+        }
+        return $months;
+    }
+    
     private function calculatePayDays($months) {
-        $paydays = array();
         foreach ($months as $month) {
-            $paydays[] = 
-                    $month->getName() . ", " 
-                    . $month->calculateSalaryDay() . ", "
-                    . $month->calculateBonusDay() . "\n";
+            $paydays[] = array(
+                "month" => $month->getNumber(),
+                "salary_day" => $month->calculateSalaryDay(),
+                "bonus_day" => $month->calculateBonusDay(),
+            );
         }
         return $paydays;
     }
     
     private function writeToFile($paydays) {
-        $outputFile = 'paydays.csv';
+        $outputFile = 'paydays-' . time() . '.csv';
         $handle = fopen($outputFile, "w");
         foreach ($paydays as $entry) {
-            fwrite($handle, $entry); //TODO: use fputcsv instead of fwrite
+            fputcsv($handle, $entry);
         }
         fclose($handle);
     }

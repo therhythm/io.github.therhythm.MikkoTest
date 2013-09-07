@@ -10,7 +10,7 @@ class MonthTest extends PHPUnit_Framework_TestCase {
      * @covers Month::calculateSalaryDay
      */
     public function testCalculateSalaryDay() {
-        $month = new Month("September", 30, 6);
+        $month = new Month(9, 2013);
         $this->assertEquals(30, $month->calculateSalaryDay());
     }
     
@@ -18,7 +18,7 @@ class MonthTest extends PHPUnit_Framework_TestCase {
      * @covers Month::calculateSalaryDay
      */
     public function testCalculateAlternativeSalaryDay() {
-        $month = new Month("November", 30, 4);
+        $month = new Month(11, 2013);
         $this->assertEquals(29, $month->calculateSalaryDay());
     }
 
@@ -26,7 +26,7 @@ class MonthTest extends PHPUnit_Framework_TestCase {
      * @covers Month::calculateBonusDay
      */
     public function testCalculateBonusDay() {
-        $month = new Month("Oktober", 31, 1);
+        $month = new Month(11, 2013);
         $this->assertEquals(15, $month->calculateBonusDay());
     }
     
@@ -34,7 +34,7 @@ class MonthTest extends PHPUnit_Framework_TestCase {
      * @covers Month::calculateBonusDay
      */
     public function testCalculateAlternativeBonusDay() {
-        $month = new Month("September", 30, 6);
+        $month = new Month(9, 2013);
         $this->assertEquals(18, $month->calculateBonusDay());
     }
 

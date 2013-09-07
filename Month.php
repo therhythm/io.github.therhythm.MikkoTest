@@ -2,7 +2,7 @@
 
 /**
  * Description of Month
- * Weekdays are represented using a number as such: Monday = 0, Tuesday = 1, etc.
+ * Weekdays are represented using a number as such: Sunday = 0, Monday = 1, etc.
  *
  * @author Kasper Vervaecke
  */
@@ -14,38 +14,50 @@ class Month {
     const ALT_BONUS_DAY = 18;
     //If the last day of the month is a Saturday or Sunday, 
     //use the date of the previous Friday instead
-    const ALT_SALARY_DAY = 4;
+    const ALT_SALARY_DAY = 5;
 
-    private $name = "January";
-    private $numberOfDays = 31;
-    private $startsOn = 1; //TODO: can this be calculated so multiple years are supported?
+    private $number;
+    private $numberOfDays;
+    private $startsOn;
     
-    //TODO: are these sensible defaults?
-    public function __construct($name = "January", $numberOfDays = 31, $startsOn = 0) {
-        $this->setName($name);
+    public function __construct($number = 1, $year = 2013) {
+        include_once 'DateUtility.php';
+        
+        $this->setNumber($number);
+        
+        $numberOfDays = cal_days_in_month(CAL_GREGORIAN, $number, $year);
         $this->setNumberOfDays($numberOfDays);
+        
+        $dateUtility = new DateUtility();
+        $startsOn = $dateUtility->getWeekday(
+                $year, substr($year, 2, 2), $number, 1);
         $this->setStartOn($startsOn);
     }
 
-    //TODO: validation
-    public function setName($name = "January") {
-        $this->name = $name;
+    public function setNumber($number = 1) {
+        if (1 <= $number && $number <= 12) {
+            $this->number = $number;
+        }
     }
 
-    public function getName() {
-        return $this->name;
+    public function getNumber() {
+        return $this->number;
     }
 
     public function setNumberOfDays($numberOfDays = 31) {
-        $this->numberOfDays = $numberOfDays;
+        if (28 <= $numberOfDays && $numberOfDays <= 31) {
+            $this->numberOfDays = $numberOfDays;
+        }
     }
 
     public function getNumberOfDays() {
         return $this->numberOfDays;
     }
 
-    public function setStartOn($startsOn = 0) {
-        $this->startsOn = $startsOn;
+    public function setStartOn($startsOn = 1) {
+        if (0 <= $startsOn && $startsOn <= 6) {
+            $this->startsOn = $startsOn;
+        }
     }
 
     public function getStartsOn() {
@@ -56,9 +68,11 @@ class Month {
         // (numberOfDays + indexOfFirstDay + 6) mod 7 
         // gives you the numeric representation of the last day of the month
         $lastDay = ($this->numberOfDays + $this->startsOn + 6) % 7;
-        if ($lastDay > 4) {
-            return $this->numberOfDays - ($lastDay - self::ALT_SALARY_DAY);
-        } else {
+        if ($lastDay == 0) {
+            return $this->numberOfDays - 2;
+        } else if ($lastDay == 6) {
+            return $this->numberOfDays - 1;
+        }else {
             return $this->numberOfDays;
         }
     }
@@ -70,11 +84,11 @@ class Month {
         //the bonus day might change in the future.
         // (usualBonusDay + indexOfFirstDay + 6) mod 7 
         // gives you the numeric representation of the 15th day of the month
-        $bonusDay = (self::BONUS_DAY + $this->startsOn + 6) % 7;
-        if ($bonusDay > 4) {
-            return self::ALT_BONUS_DAY;
+        $bonusDay = (Month::BONUS_DAY + $this->startsOn + 6) % 7;
+        if ($bonusDay == 0 || $bonusDay == 6) {
+            return Month::ALT_BONUS_DAY;
         } else {
-            return self::BONUS_DAY;
+            return Month::BONUS_DAY;
         }
     }
 
