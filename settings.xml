@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <setting>
+        <key>BONUS_DAY</key>
+        <value>15</value>    
+    </setting>
+    <setting>
+        <key>ALT_BONUS_DAY</key>
+        <value>3</value>    
+    </setting>
+    <setting>
+        <key>ALT_SALARY_DAY</key>
+        <value>5</value>    
+    </setting>
+</settings>

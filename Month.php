@@ -9,17 +9,9 @@
  */
 class Month 
 {
-    /**
-     * Bonuses are paid out on the 15th, unless the 15th is a Saturday or Sunday,
-     * in which case, pay out the next Wednesday.
-     */
-    const BONUS_DAY = 15;
-    const ALT_BONUS_DAY = 3;
-    /**
-     * If the last day of the month is a Saturday or Sunday, 
-     * use the date of the previous Friday instead
-     */
-    const ALT_SALARY_DAY = 5;
+    private $_bonusDay;
+    private $_altBonusDay;
+    private $_altSalaryDay;
 
     private $_number;
     private $_numberOfDays;
@@ -35,20 +27,19 @@ class Month
      *                      year, e.g. 2013
      * 
      */
-    public function __construct($number, $year)
+    public function __construct($number, $year, $bonusDay, $altBonusDay, $altSalaryDay)
     {
         include_once 'DateUtility.php';
         
         $this->setNumber($number);
-               
-        $numberOfDays = cal_days_in_month(CAL_GREGORIAN, $number, $year);
-        $this->setNumberOfDays($numberOfDays);
-        
+        $this->setNumberOfDays(cal_days_in_month(CAL_GREGORIAN, $number, $year));
         $dateUtility = new DateUtility();
-        $startsOn = $dateUtility->getWeekday(
+        $this->setStartOn($dateUtility->getWeekday(
             substr($year, 0, 2) * 100, substr($year, 2, 2), $number, 1
-        );
-        $this->setStartOn($startsOn);
+        ));
+        $this->_bonusDay = $bonusDay;
+        $this->_altBonusDay = $altBonusDay;
+        $this->_altSalaryDay = $altSalaryDay;        
     }
 
     /**
@@ -135,9 +126,9 @@ class Month
          */
         $lastDay = ($this->_numberOfDays + $this->_startsOn + 6) % 7;
         if ($lastDay == 0) {
-            return $this->_numberOfDays - 2;
+            return $this->_numberOfDays - (7 - $this->_altSalaryDay);
         } else if ($lastDay == 6) {
-            return $this->_numberOfDays - 1;
+            return $this->_numberOfDays - (6 - $this->_altSalaryDay);
         } else {
             return $this->_numberOfDays;
         }
@@ -160,13 +151,13 @@ class Month
          * (usualBonusDay + indexOfFirstDay + 6) mod 7 
          * gives you the numeric representation of the 15th day of the month 
          */
-        $bonusDay = (Month::BONUS_DAY + $this->_startsOn + 6) % 7;
+        $bonusDay = ($this->_bonusDay + $this->_startsOn + 6) % 7;
         if ($bonusDay == 0) {
-            return Month::BONUS_DAY + Month::ALT_BONUS_DAY;
+            return $this->_bonusDay + $this->_altBonusDay;
         } else if ($bonusDay == 6) {
-            return Month::BONUS_DAY + Month::ALT_BONUS_DAY + 1;
+            return $this->_bonusDay + $this->_altBonusDay + 1;
         } else {
-            return Month::BONUS_DAY;
+            return $this->_bonusDay;
         }
     }
 

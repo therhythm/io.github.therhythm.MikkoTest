@@ -11,11 +11,13 @@
      * depending on where the application is used.
      */
     $timeZone = 'Europe/Brussels';
+    $settingsFile = 'settings.xml';
 
     $salaryController = new SalaryController($timeZone);
     
     if ($argc == 4) {
         try {
+            $salaryController->loadSettings($settingsFile);
             $months = $salaryController->calculateMonths($argv[1], $argv[2], $argv[3]);
             $paydays = $salaryController->calculatePayDays($months);
             $salaryController->writeToFile($paydays);

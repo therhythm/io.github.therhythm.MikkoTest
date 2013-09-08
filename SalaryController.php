@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SalaryController is the main controller of this application. It can calculate
+ * SalaryController is the main controller of this application. It can load settings, calculate
  * the months in a given timeframe, calculate paydays for given months and write
  * these paydays to a CSV file.
  * 
@@ -9,6 +9,9 @@
  */
 class SalaryController 
 {
+    private $_bonusDay;
+    private $_altBonusDay;
+    private $_altSalaryDay;
     
     /*
      * Initialize SalaryController with a given timezone.
@@ -18,6 +21,74 @@ class SalaryController
         include_once 'Month.php';
         include_once 'FileWriter.php';
         date_default_timezone_set($timeZone);
+    }
+    
+    /**
+     * Set the bonus day
+     * 
+     * @param int $bonusDay The bonus day
+     * 
+     * @throws Exception    The bonus day is expected to be between 1 and 28
+     * 
+     */
+    public function setBonusDay($bonusDay) {
+        if (1 <= $bonusDay && $bonusDay <= 28) {
+            $this->_bonusDay = $bonusDay;
+        } else {
+            throw new Exception('Bonusday is expected to be between 1 and 28');
+        }
+    }
+    
+    /**
+     * Set the alternative bonus day
+     * 
+     * @param int $altBonusDay  The alternative bonus day
+     * 
+     * @throws Exception    The alternative bonus day is expected to be between 0 and 6
+     * 
+     */
+    public function setAltBonusDay($altBonusDay) {
+        if (0 <= $altBonusDay && $altBonusDay <= 6) {
+            $this->_altBonusDay = $altBonusDay;
+        } else {
+            throw new Exception('Alternative bonus day is expected to be between 0 and 6');
+        }
+    }
+    
+    /**
+     * Set the alternative salary day
+     * 
+     * @param int $altSalaryDay The alternative salary day
+     * 
+     * @throws Exception    The alternative salary day is expected to be between 0 and 6
+     * 
+     */
+    public function setAltSalaryDay($altSalaryDay) {
+        if (0 <= $altSalaryDay && $altSalaryDay <= 6) {
+            $this->_altSalaryDay = $altSalaryDay;
+        } else {
+            throw new Exception('Alternative salary day is expected to be between 0 and 6');
+        }
+    }
+    
+    /**
+     * Load settings from a given XML file.
+     * 
+     * @param string $settingsFile  The settings file
+     * 
+     * @throws Exception    The settings file does not exist.
+     * 
+     */
+    public function loadSettings($settingsFile)
+    {
+        if (file_exists($settingsFile)) {
+            $settings = simplexml_load_file($settingsFile);
+            $this->setBonusDay($settings->setting[0]->value);
+            $this->setAltBonusDay($settings->setting[1]->value);
+            $this->setAltSalaryDay($settings->setting[2]->value);
+        } else {
+            throw new Exception('Settings file does not exist.');
+        }
     }
     
     /**
@@ -38,7 +109,9 @@ class SalaryController
                 && 0 < $year
           ) {
             for ($i = $firstMonth; $i <= $lastMonth; $i++) {
-                $months[] = new Month((int) $i, $year);
+                $months[] = new Month((int) $i, $year, $this->_bonusDay, 
+                    $this->_altBonusDay, $this->_altSalaryDay
+                );
             }
             return $months;
         } else {

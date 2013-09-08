@@ -25,22 +25,14 @@ class CSVFileWriter implements FileWriter
      */
     public function writeToFile($data, $file)
     {
-        if (is_writable($file)) {
-            $handle = fopen($file, 'w');
-            if (!$handle) {
-                foreach ($data as $entry) {
-                    $csv = fputcsv($handle, $entry);
-                }
-                if (!$csv) {
-                    throw new Exception('Failed to write to file');
-                }
-                fclose($handle);
-            } else {
-                throw new Exception('Failed to open file');
-            }
-        } else {
-            throw new Exception('File is not writable');
-        }
+         $handle = fopen($file, 'w');
+         foreach ($data as $entry) {
+            $csv = fputcsv($handle, $entry);
+         }
+         if (!$csv) {
+             throw new Exception('Failed to write to file');
+         }
+         fclose($handle);
     }
 
 }

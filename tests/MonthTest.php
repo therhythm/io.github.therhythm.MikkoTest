@@ -13,7 +13,7 @@ class MonthTest extends PHPUnit_Framework_TestCase
      */
     public function testCalculateSalaryDay()
     {
-        $month = new Month(9, 2013);
+        $month = new Month(9, 2013, 15, 3, 5);
         $this->assertEquals(30, $month->calculateSalaryDay());
     }
     
@@ -22,7 +22,7 @@ class MonthTest extends PHPUnit_Framework_TestCase
      */
     public function testCalculateAlternativeSalaryDay()
     {
-        $month = new Month(11, 2013);
+        $month = new Month(11, 2013, 15, 3, 5);
         $this->assertEquals(29, $month->calculateSalaryDay());
     }
 
@@ -31,7 +31,7 @@ class MonthTest extends PHPUnit_Framework_TestCase
      */
     public function testCalculateBonusDay()
     {
-        $month = new Month(11, 2013);
+        $month = new Month(11, 2013, 15, 3, 5);
         $this->assertEquals(15, $month->calculateBonusDay());
     }
     
@@ -40,7 +40,7 @@ class MonthTest extends PHPUnit_Framework_TestCase
      */
     public function testCalculateAlternativeBonusDaySunday()
     {
-        $month = new Month(9, 2013);
+        $month = new Month(9, 2013, 15, 3, 5);
         $this->assertEquals(18, $month->calculateBonusDay());
     }
     
@@ -49,7 +49,7 @@ class MonthTest extends PHPUnit_Framework_TestCase
      */
     public function testCalculateAlternativeBonusDaySaturday()
     {
-        $month = new Month(2, 2014);
+        $month = new Month(2, 2014, 15, 3, 5);
         $this->assertEquals(19, $month->calculateBonusDay());
     }
     
