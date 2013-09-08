@@ -13,9 +13,9 @@ class DateUtility
     /**
      * Calculate what weekday a certain give date is.
      * 
-     * @param int $century  The full-length numerical representation of the year,
-     *                      DateUtility expects the year to be between 1970 and 9999,
-     *                      e.g 2013
+     * @param int $century  The full-length numerical representation of the century,
+     *                      DateUtility expects the century to be between 1900 and 9999,
+     *                      e.g 2000
      * @param int $year     The last two digits of the numerical representation
      *                      of the year, e.g. 13
      * @param int $month    The numerical representation of the month, e.g. 12
@@ -28,16 +28,16 @@ class DateUtility
     public function getWeekday($century, $year, $month, $day)
     {
         if ($this->_validateValues($century, $year, $month, $day)) {
-            return $weekday = (($this->_calculateCenturyOffset($century) 
+            return $weekday = ($this->_calculateCenturyOffset($century) 
                     + $this->_calculateYearOffset($year) 
                     + $this->_calculateMonthOffset($month, $century) 
-                    + $this->_calculateDayOffset($day) - 1) % 7);
+                    + $this->_calculateDayOffset($day)) % 7;
         }
     }
     
     private function _validateValues($century, $year, $month, $day)
     {
-        if (1970 > $century || $century > 9999) {
+        if (1900 > $century || $century > 9999) {
             throw new Exception("Century should be between 1970 and 9999");
         } else if (0 > $year || $year > 99) {
             throw new Exception("Year should be between 00 and 99");
@@ -52,25 +52,7 @@ class DateUtility
 
     private function _calculateCenturyOffset($century)
     {
-        /**
-         * This will cause problems for years between 400 and 500,
-         * which is unlikely to be an issue for this particular application
-         * but this should be considered before reuse.
-         */
-        switch ($century % 400) {
-        case 0:
-            return 6;
-            break;
-        case 100:
-            return 4;
-            break;
-        case 200:
-            return 2;
-            break;
-        case 300:
-            return 0;
-            break;
-        }
+        return $this->_mod((39 - $century), 4) * 2;
     }
 
     private function _calculateYearOffset($year)
@@ -83,7 +65,7 @@ class DateUtility
         $offset = 0;
         for ($i = 1; $i < $month; $i++) {
             $offset = $offset + 
-                    (cal_days_in_month(CAL_GREGORIAN, $i, $century) % 7);
+                    (cal_days_in_month(CAL_GREGORIAN, $i, 1) % 7);
         }
         return $offset % 7;
     }
@@ -91,6 +73,18 @@ class DateUtility
     private function _calculateDayOffset($day)
     {
         return $day % 7;
+    }
+    
+    /**
+     * Because % doesn't play nice with negative numbers, this little function
+     * is required
+     * 
+     * @param int $a    The first number 
+     * @param int $b    The second number
+     * @return int      The modulo
+     */
+    private function _mod($a, $b) {
+        return ($a % $b) + ($a < 0 ? $b : 0);
     }
 
 }

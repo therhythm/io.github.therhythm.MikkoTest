@@ -1,13 +1,13 @@
 <?php
 
 /**
- * SalaryUtility is the main class of this application. When initialized, it will
+ * SalaryCalculator is the main class of this application. When initialized, it will
  * calculate the remaining months of the current year, calculate the paydays for
  * these months and write the results to a CSV file.
  * 
  * @author Kasper Vervaecke <kaspervervaecke@gmail.com>
  */
-class SalaryUtility 
+class SalaryCalculator 
 {
     /**
      * This is unlikely to make a big difference, but it could be changed 
@@ -16,14 +16,14 @@ class SalaryUtility
     const TIMEZONE = 'Europe/Brussels';
     
     /*
-     * Initialize SalaryUtility, calculate the remaining months, calculate the
+     * Initialize SalaryCalculator, calculate the remaining months, calculate the
      * paydays and write the results to a CSV file.
      */
     public function __construct()
     {
         include_once 'Month.php';
         include_once 'FileWriter.php';
-        date_default_timezone_set(SalaryUtility::TIMEZONE);
+        date_default_timezone_set(SalaryCalculator::TIMEZONE);
                
         try {
             $months = $this->_calculateRemainingMonths();
@@ -71,6 +71,6 @@ class SalaryUtility
     }
 }
 
-$salaryUtility = new SalaryUtility();
+$salaryUtility = new SalaryCalculator();
 
 ?>

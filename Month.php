@@ -47,7 +47,7 @@ class Month
         
         $dateUtility = new DateUtility();
         $startsOn = $dateUtility->getWeekday(
-            $year, substr($year, 2, 2), $number, 1
+            substr($year, 0, 2) * 100, substr($year, 2, 2), $number, 1
         );
         $this->setStartOn($startsOn);
     }
