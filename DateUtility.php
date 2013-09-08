@@ -30,7 +30,7 @@ class DateUtility
         if ($this->_validateValues($century, $year, $month, $day)) {
             return $weekday = ($this->_calculateCenturyOffset($century) 
                     + $this->_calculateYearOffset($year) 
-                    + $this->_calculateMonthOffset($month, $century) 
+                    + $this->_calculateMonthOffset($month) 
                     + $this->_calculateDayOffset($day)) % 7;
         }
     }
@@ -38,13 +38,13 @@ class DateUtility
     private function _validateValues($century, $year, $month, $day)
     {
         if (1900 > $century || $century > 9999) {
-            throw new Exception("Century should be between 1970 and 9999");
+            throw new Exception('Century should be between 1970 and 9999');
         } else if (0 > $year || $year > 99) {
-            throw new Exception("Year should be between 00 and 99");
+            throw new Exception('Year should be between 00 and 99');
         } else if (1 > $month || $month > 12 ) {
-            throw new Exception("Month should be between 1 and 12");
+            throw new Exception('Month should be between 1 and 12');
         } else if (1 > $day || $day > 31) {
-            throw new Exception("Day should be between 1 and 31");
+            throw new Exception('Day should be between 1 and 31');
         } else {
             return true;
         }
@@ -60,7 +60,7 @@ class DateUtility
         return (($year + floor($year / 4)) % 7);
     }
 
-    private function _calculateMonthOffset($month, $century)
+    private function _calculateMonthOffset($month)
     {
         $offset = 0;
         for ($i = 1; $i < $month; $i++) {
@@ -78,10 +78,6 @@ class DateUtility
     /**
      * Because % doesn't play nice with negative numbers, this little function
      * is required
-     * 
-     * @param int $a    The first number 
-     * @param int $b    The second number
-     * @return int      The modulo
      */
     private function _mod($a, $b) {
         return ($a % $b) + ($a < 0 ? $b : 0);

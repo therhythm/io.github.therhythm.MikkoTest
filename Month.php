@@ -9,7 +9,6 @@
  */
 class Month 
 {
-    //TODO: what if suddenly paydays can be weekends and other days cannot?
     /**
      * Bonuses are paid out on the 15th, unless the 15th is a Saturday or Sunday,
      * in which case, pay out the next Wednesday.

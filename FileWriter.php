@@ -9,7 +9,7 @@
  */
 interface FileWriter 
 {
-    public function _writeToFile($data, $file);
+    public function writeToFile($data, $file);
 }
 
 class CSVFileWriter implements FileWriter
@@ -23,14 +23,14 @@ class CSVFileWriter implements FileWriter
      * @param string    $file   The file the data should be written to
      * 
      */
-    public function _writeToFile($data, $file)
+    public function writeToFile($data, $file)
     {
         $handle = fopen($file, 'w');
         foreach ($data as $entry) {
             $csv = fputcsv($handle, $entry);
         }
         if (!$csv) {
-            throw new Exception("Failed to write to file");
+            throw new Exception('Failed to write to file');
         }
         fclose($handle);
     }
