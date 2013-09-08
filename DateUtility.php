@@ -38,7 +38,7 @@ class DateUtility
     private function _validateValues($century, $year, $month, $day)
     {
         if (1900 > $century || $century > 9999) {
-            throw new Exception('Century should be between 1970 and 9999');
+            throw new Exception('Century should be between 1900 and 9999');
         } else if (0 > $year || $year > 99) {
             throw new Exception('Year should be between 00 and 99');
         } else if (1 > $month || $month > 12 ) {

@@ -26,7 +26,7 @@
             exit(1);
         }
     } else {
-        fwrite(STDOUT, 'SalaryView expects 3 arugments: 
+        fwrite(STDOUT, 'SalaryView expects 3 arguments: 
             SalaryView.php first_month last_month year');
     }
 ?>
