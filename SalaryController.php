@@ -106,7 +106,7 @@ class SalaryController
         if(1 <= $firstMonth && $firstMonth <= 12
                 && 1 <= $lastMonth && $lastMonth <= 12
                 && $firstMonth < $lastMonth
-                && 0 < $year
+                && 1900 < $year && $year < 9999
           ) {
             for ($i = $firstMonth; $i <= $lastMonth; $i++) {
                 $months[] = new Month((int) $i, $year, $this->_bonusDay, 
@@ -115,8 +115,9 @@ class SalaryController
             }
             return $months;
         } else {
-            throw new Exception('Invalid dates entered. Timeframe and year can 
-                not be negative, months are expected to be between 1 and 12'
+            throw new Exception('Invalid dates entered. Timeframe can not be 
+                negative, months are expected to be between 1 and 12, year is
+                expected to be between 1900 and 9999'
             );
         }
     }
