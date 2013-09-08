@@ -102,17 +102,6 @@ class Month
     }
 
     /**
-     * Get the number of days in this month.
-     * 
-     * @return int  The number of days in this month
-     * 
-     */
-    public function getNumberOfDays()
-    {
-        return $this->_numberOfDays;
-    }
-
-    /**
      * Set which weekday this month starts on.
      * 
      * @param int $startsOn The weekday this month starts on
@@ -129,17 +118,6 @@ class Month
                 'Start date should be between 0 and 6'
             );
         }
-    }
-
-    /**
-     * Get the weekday this month starts on.
-     * 
-     * @return int  The weekday this month starts on
-     * 
-     */
-    public function getStartsOn()
-    {
-        return $this->_startsOn;
     }
 
     /**
