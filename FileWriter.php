@@ -36,5 +36,3 @@ class CSVFileWriter implements FileWriter
     }
 
 }
-
-?>

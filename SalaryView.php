@@ -29,4 +29,3 @@
         fwrite(STDOUT, 'SalaryView expects 3 arguments: 
             SalaryView.php first_month last_month year');
     }
-?>

@@ -155,5 +155,3 @@ class SalaryController
         $csvFileWriter->writeToFile($paydays, 'paydays-' . time() . '.csv');
     }
 }
-
-?>
