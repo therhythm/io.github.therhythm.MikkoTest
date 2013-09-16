@@ -7,7 +7,7 @@
  * 
  * @author Kasper Vervaecke <kaspervervaecke@gmail.com>
  */
-class Month 
+class MonthlyPaydatesCalculator 
 {
     private $_bonusDay;
     private $_altBonusDay;
