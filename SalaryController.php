@@ -18,7 +18,7 @@ class SalaryController
      */
     public function __construct($timeZone)
     {
-        include_once 'Month.php';
+        include_once 'MonthlyPaydatesCalculator.php';
         include_once 'FileWriter.php';
         date_default_timezone_set($timeZone);
     }
@@ -109,7 +109,7 @@ class SalaryController
                 && 1900 < $year && $year < 9999
           ) {
             for ($i = $firstMonth; $i <= $lastMonth; $i++) {
-                $months[] = new Month((int) $i, $year, $this->_bonusDay, 
+                $months[] = new MonthlyPaydatesCalculator((int) $i, $year, $this->_bonusDay, 
                     $this->_altBonusDay, $this->_altSalaryDay
                 );
             }
